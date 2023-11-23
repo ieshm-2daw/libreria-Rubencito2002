@@ -36,7 +36,8 @@ class Libro(models.Model):
 
 class Prestamos(models.Model):
     ESTADO = [
-        
+        ('prestado','Prestado')
+        ('devuelto','Devuelto')
     ]
 
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
