@@ -6,15 +6,24 @@ class Usuario(AbstractUser):
     direccion = models.CharField(max_length=255)
     telefono = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.dni
+
 class Autor(models.Model):
     nombre = models.CharField(max_length=100)
     bibliografia = models.TextField()
     foto = models.ImageField()
 
+    def __str__(self):
+        return self.nombre
+
 class Editorial(models.Model):
     nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=255)
     web = models.URLField()
+
+    def __str__(self):
+        return self.nombre
 
 class Libro(models.Model):
     DISPONIBILIDA = [
@@ -32,6 +41,9 @@ class Libro(models.Model):
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDA, default='disponible')
     portada = models.ImageField()
+
+    def __str__(self):
+        return self.titulo
 
 class Prestamos(models.Model):
     ESTADO = [
