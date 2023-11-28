@@ -3,13 +3,18 @@
     <h1>Detalles del Libro</h1>
     <article>
         <p><strong>Titulo: </strong> {{libro.titulo}}</p>
-        <p><strong>Autor: </strong> {{autor.nombre}}</p>
+        <p><strong>Autor: </strong> {{libro.autores.all}}</p>
+
+        {% for libro in libro.autores.all %}
+            <p>Autor: {{libro.autores}}</p>
+        {% endfor %}
+
         <p><strong>Editorial: </strong> {{libro.editorial}}</p>
         <p><strong>Fecha Publicacion: </strong> {{libro.fecha_publicacion}}</p>
         <p><strong>ISBN: </strong> {{libro.isbn}}</p>
         <p><strong>Resumen: </strong> {{libro.resumen}}</p>
         <p><strong>Disponibilidad: </strong> {{libro.disponibilidad}}</p>
-        
+
         <a href="{% url 'update' pk=libro.pk %}" role="button">Editar</a>
         <a href="{% url 'delete' pk=libro.pk %}" role="button">Eliminar</a>
     </article>
