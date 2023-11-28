@@ -26,7 +26,7 @@ class Editorial(models.Model):
         return self.nombre
 
 class Libro(models.Model):
-    DISPONIBILIDA = (
+    DISPONIBILIDAD = (
         ('disponible', 'Disponible'),
         ('prestado', 'Prestado'),
         ('en_proceso', 'En proceso de préstamo'),
@@ -39,7 +39,7 @@ class Libro(models.Model):
     genero = models.CharField(max_length=100)
     isbn = models.CharField(max_length=13)
     resumen = models.TextField()
-    disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDA, default='disponible')
+    disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDAD, default='disponible')
     portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

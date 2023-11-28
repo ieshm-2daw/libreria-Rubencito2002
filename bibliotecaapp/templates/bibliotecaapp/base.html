@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Biblioteca Hnos.</title>
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><strong>Biblioteca Hnos. Machado</strong></li>
+                </ul>
+                <ul>
+                    <li><a href="{% url 'listado' %}" role="button">Listado de Libros</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

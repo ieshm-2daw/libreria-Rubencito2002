@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
-AUTH_USER_MODEL = 'bibliotecaapp.Usuario'
+AUTH_USER_MODEL = "bibliotecaapp.Usuario"
 # Application definition
 
 INSTALLED_APPS = [
