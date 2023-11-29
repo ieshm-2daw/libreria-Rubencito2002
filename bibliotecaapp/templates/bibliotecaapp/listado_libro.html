@@ -1,0 +1,25 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Listado de Libros Disponibles</h1>
+    {% for libro in libros_disponibles %}
+        <article>    
+            <p> {{ libro.titulo }} </p>
+            {% if libro.portada %}
+                <img src="{{ libro.portada.url }}" alt="">
+            {% endif %}
+            <br><br>
+            <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
+        </article>
+    {% endfor %}
+    <h1>Listado de Libros Prestados</h1>
+    {% for libro in libros_prestados %}
+        <article>    
+            <p> {{ libro.titulo }} </p>
+            {% if libro.portada %}
+                <img src="{{ libro.portada.url }}" alt="">
+            {% endif %}
+            <br><br>
+            <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
+        </article>
+    {% endfor %}
+{% endblock %}
