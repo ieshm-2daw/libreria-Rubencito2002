@@ -1,7 +1,7 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
     <h1>Actualizar el Libro</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" value="Update">Libro Editado</button>
