@@ -1,8 +1,10 @@
+from django.utils import timezone
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from .models import Libro
+from django.views import View
+from .models import Libro, Prestamos
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
 class ListadoBook(ListView):
@@ -41,3 +43,19 @@ class CreateBook(CreateView):
     fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
     template_name = 'bibliotecaapp/create_libro.html'
     success_url = reverse_lazy('listado')
+
+class Prestamo(View):
+    prestamos_template = 'bibliotecaapp/prestamo.html'
+
+    def get(self,request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        return render(request, self.prestamos_template, {'libro': libro})
+    
+    def post(self, request, pk):
+        libroPrestado = get_object_or_404(Libro, pk=pk)
+        if libroPrestado.disponibilidad:
+            prestamo = Prestamos(libro=libroPrestado, usuario=request.user, fecha_prestamo=timezone.now())
+            Libro.disponibilidad = "Prestado"
+            Prestamos.estado = "Prestado"
+            prestamo.save()
+        return redirect('listado')

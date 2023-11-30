@@ -15,13 +15,8 @@
             <img src="{{ libro.portada.url }}" alt="">
         {% endif %}
         <br><br>
+        <a href="{% url 'prestamo' pk=libro.pk %}" role="button">Realizar Prestamo</a>
         <a href="{% url 'update' pk=libro.pk %}" role="button">Editar</a>
         <a href="{% url 'delete' pk=libro.pk %}" role="button">Eliminar</a>
     </article>
 {% endblock %}
-
-<!--
-    {% for autor un libro.autores.all %}
-        {{ autor.nombre }} {% if not forloop.last %}, {% endif %}
-    {% endfor %}
--->

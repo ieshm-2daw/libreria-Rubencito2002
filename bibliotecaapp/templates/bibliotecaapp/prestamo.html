@@ -1,0 +1,13 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Realizar Préstamo</h1>
+    <article>
+        <p><strong>Titulo: </strong> {{libro.titulo}}</p>
+        <p><strong>Autor/es: </strong> {{libro.autores.all}}</p>
+        <p><strong>Editorial: </strong> {{libro.editorial}}</p>       
+    </article>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmar Préstamo</button>
+    </form>
+{% endblock %}
