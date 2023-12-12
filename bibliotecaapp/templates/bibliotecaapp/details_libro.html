@@ -3,8 +3,11 @@
     <h1>Detalles del Libro</h1>
     <article>
         <p><strong>Titulo: </strong> {{libro.titulo}}</p>
-        <p><strong>Autor/es: </strong> {{libro.autores.all}}</p>
-        
+        <p><strong>Autor/es: </strong>
+            {% for autor in libro.autores.all %}
+                {{ autor.nombre}}{% if not forloop.last %}. {% endif %}
+            {% endfor %}
+        </p>
         <p><strong>Editorial: </strong> {{libro.editorial}}</p>
         <p><strong>Fecha Publicacion: </strong> {{libro.fecha_publicacion}}</p>
         <p><strong>ISBN: </strong> {{libro.isbn}}</p>
@@ -15,7 +18,7 @@
             <img src="{{ libro.portada.url }}" alt="">
         {% endif %}
         <br><br>
-        <a href="{% url 'prestamo' pk=libro.pk %}" role="button">Realizar Prestamo</a>
+        <a href="{% url 'realizar_prestamo' pk=libro.pk %}" role="button">Realizar Prestamo</a>
         <a href="{% url 'update' pk=libro.pk %}" role="button">Editar</a>
         <a href="{% url 'delete' pk=libro.pk %}" role="button">Eliminar</a>
     </article>
