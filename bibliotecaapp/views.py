@@ -1,5 +1,8 @@
 from datetime import date, timedelta
+<<<<<<< HEAD
 from django.utils import timezone
+=======
+>>>>>>> ff57fecf71db5c4d366940bef4cca4cfbebc1a00
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
@@ -24,6 +27,11 @@ class ListadoBook(ListView):
         
         return context
     
+class ListadoPrestado(ListView):
+    model = Libro
+    template_name = 'bibliotecaapp/libros_prestados.html'
+    queryset = Libro.objects.filter(disponibilidad="prestado")
+
 class ListadoPrestado(ListView):
     model = Libro
     template_name = 'bibliotecaapp/libros_prestados.html'
@@ -93,4 +101,8 @@ class Devolver_Prestamo(View):
             libroDevuelto.disponibilidad = 'disponible'
             libroDevuelto.save()
             return redirect('details', pk = pk)
+<<<<<<< HEAD
         return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
+=======
+        return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
+>>>>>>> ff57fecf71db5c4d366940bef4cca4cfbebc1a00
