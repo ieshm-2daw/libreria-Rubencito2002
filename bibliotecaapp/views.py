@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import date, timedelta
 from django.utils import timezone
 from typing import Any
 from django.db.models.query import QuerySet
@@ -23,6 +23,11 @@ class ListadoBook(ListView):
         context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
         
         return context
+    
+class ListadoPrestado(ListView):
+    model = Libro
+    template_name = 'bibliotecaapp/libros_prestados.html'
+    queryset = Libro.objects.filter(disponibilidad="prestado")
 
 class DetailsBook(DetailView):
     model = Libro
@@ -46,24 +51,46 @@ class CreateBook(CreateView):
     success_url = reverse_lazy('listado')
 
 class Realizar_Prestamo(View):
-    prestamos_template = 'bibliotecaapp/prestamo.html'
+    realizarPrestamos_template = 'bibliotecaapp/prestamo_libro.html'
     def get(self,request, pk):
-        libro = get_object_or_404(Libro, pk=pk)
-        return render(request, self.prestamos_template, {'libro': libro})
+        libroPrestado = get_object_or_404(Libro, pk=pk)
+        return render(request, self.realizarPrestamos_template, {'libro': libroPrestado})
     
     def post(self, request, pk):
         libroPrestado = get_object_or_404(Libro, pk=pk)
-        if libroPrestado.disponibilidad != 'disponible':
-            usuario = request.user
-            fecha_prestamo = timezone.now()
-            fecha_devolucion = fecha_prestamo + timedelta(day=15)
+        if request.method == 'POST':
+            #usuario = request.user
+            fechaPrestamo = date.today()
+            fechaDevolucion = fechaPrestamo + timedelta(days=15)
             
-            Prestamos.estado = "prestado"
-            Prestamos.libro = libroPrestado
-            Prestamos.fecha_prestamo = fecha_prestamo
-            Prestamos.usuario = usuario
-            Prestamos.fecha_devolucion = fecha_devolucion
-            
+            Prestamos.objects.create(
+                libro = libroPrestado,
+                fecha_prestamo = fechaPrestamo,
+                fecha_devolucion = fechaDevolucion,
+                usuario = request.user,
+                estado = 'prestado'
+            )
             libroPrestado.disponibilidad = "prestado"
             libroPrestado.save()
-        return redirect('details', pk = pk)
+            return redirect('details', pk = pk)
+        return render(request, self.realizarPrestamos_template, {'libro' : libroPrestado})
+
+class Devolver_Prestamo(View):
+    devolverPrestamo_template = 'bibliotecaapp/devolver_libro.html'
+    
+    def get(self, request, pk):
+        libroDevuelto = get_object_or_404(Libro, pk=pk, disponibilidad = 'prestado')
+        return render(request, self.devolverPrestamo_template, {'libro': libroDevuelto})
+    
+    def post(self, request, pk):
+        libroDevuelto = get_object_or_404(Libro, pk=pk, disponibilidad = 'prestado')
+        prestamo = Prestamos.objects.filter(libro = libroDevuelto, usuario = request.user, estado = 'prestado').first()
+        if request.method == 'POST':
+            prestamo.estado = 'devuelto'
+            prestamo.fecha_devolucion = date.today()
+            prestamo.save()
+
+            libroDevuelto.disponibilidad = 'disponible'
+            libroDevuelto.save()
+            return redirect('details', pk = pk)
+        return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
