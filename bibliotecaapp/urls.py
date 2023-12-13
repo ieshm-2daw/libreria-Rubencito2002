@@ -11,8 +11,4 @@ urlpatterns = [
     path('created/', CreateBook.as_view(), name='created'),
     path('prestamo/<int:pk>/', Realizar_Prestamo.as_view(), name='realizar_prestamo'),
     path('devolucion/<int:pk>/', Devolver_Prestamo.as_view(), name='devolver_prestamo'),
-<<<<<<< HEAD
 ]
-=======
-]
->>>>>>> ff57fecf71db5c4d366940bef4cca4cfbebc1a00

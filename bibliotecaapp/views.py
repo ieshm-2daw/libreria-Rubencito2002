@@ -1,8 +1,4 @@
 from datetime import date, timedelta
-<<<<<<< HEAD
-from django.utils import timezone
-=======
->>>>>>> ff57fecf71db5c4d366940bef4cca4cfbebc1a00
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
@@ -14,28 +10,19 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 class ListadoBook(ListView):
     model = Libro
     template_name = 'bibliotecaapp/listado_libro.html'
-    #queryset = Libro.objects.filter(disponibilidad="disponible")
-    """
-    def get_queryset(self):
-        return Libro.objects.filter(disponibilidad="disponible")
-    """
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-
-        context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
-        context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
-        
-        return context
+    queryset = Libro.objects.filter(disponibilidad="disponible")
     
 class ListadoPrestado(ListView):
-    model = Libro
+    model = Prestamos
     template_name = 'bibliotecaapp/libros_prestados.html'
-    queryset = Libro.objects.filter(disponibilidad="prestado")
-
-class ListadoPrestado(ListView):
-    model = Libro
-    template_name = 'bibliotecaapp/libros_prestados.html'
-    queryset = Libro.objects.filter(disponibilidad="prestado")
+    #queryset = Prestamos.objects.filter(estado='prestado')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+    
+        context['prestamo_prestados'] = Prestamos.objects.filter(estado='prestado', usuario=self.request.user)
+        context['prestamo_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
+        return context
 
 class DetailsBook(DetailView):
     model = Libro
@@ -67,7 +54,7 @@ class Realizar_Prestamo(View):
     def post(self, request, pk):
         libroPrestado = get_object_or_404(Libro, pk=pk)
         if request.method == 'POST':
-            #usuario = request.user
+            usuario = request.user
             fechaPrestamo = date.today()
             fechaDevolucion = fechaPrestamo + timedelta(days=15)
             
@@ -75,7 +62,7 @@ class Realizar_Prestamo(View):
                 libro = libroPrestado,
                 fecha_prestamo = fechaPrestamo,
                 fecha_devolucion = fechaDevolucion,
-                usuario = request.user,
+                usuario = usuario,
                 estado = 'prestado'
             )
             libroPrestado.disponibilidad = "prestado"
@@ -101,8 +88,4 @@ class Devolver_Prestamo(View):
             libroDevuelto.disponibilidad = 'disponible'
             libroDevuelto.save()
             return redirect('details', pk = pk)
-<<<<<<< HEAD
         return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
-=======
-        return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
->>>>>>> ff57fecf71db5c4d366940bef4cca4cfbebc1a00

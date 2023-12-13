@@ -1,14 +1,23 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
     <h1>Listado de Libros Prestados</h1>
-    {% for libro in object_list %}
+    {% for prestamo in prestamo_prestados %}
         <article>    
-            <p> {{ libro.titulo }} </p>
-            {% if libro.portada %}
-                <img src="{{ libro.portada.url }}" alt="">
-            {% endif %}
+            <p> {{ prestamo.libro.titulo }} </p>
+            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }}</p>
+            <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }}</p>
             <br><br>
-            <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
+            <a href="{% url 'devolver_prestamo' pk=prestamo.pk %}" role="button">Devolver</a>
+        </article>
+    {% endfor %}
+    <h1>Listado de Libros Devueltos</h1>
+    {% for prestamo in prestamo_devuelto %}
+        <article>    
+            <p> {{ prestamo.libro.titulo }} </p>
+            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }}</p>
+            <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }}</p>
+            <br><br>
+            <a href="{% url 'details' pk=prestamo.pk %}" role="button">Detalles</a>
         </article>
     {% endfor %}
 {% endblock %}
