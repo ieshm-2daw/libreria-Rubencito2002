@@ -17,7 +17,6 @@
             <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }}</p>
             <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }}</p>
             <br><br>
-            <a href="{% url 'details' pk=prestamo.pk %}" role="button">Detalles</a>
         </article>
     {% endfor %}
 {% endblock %}
