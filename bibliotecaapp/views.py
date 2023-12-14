@@ -20,10 +20,11 @@ class ListadoPrestado(ListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
     
-        context['prestamo_prestados'] = Prestamos.objects.filter(estado='prestado', usuario=self.request.user)
-        context['prestamo_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
+        context['prestamos_prestados'] = Prestamos.objects.filter(estado='prestado', usuario=self.request.user)
+        context['prestamos_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
         return context
-
+    
+# Ordenar un listado de libros por su fecha de publicacion
 class ListadoPorFecha(ListView):
     model = Libro
     template_name = 'bibliotecaapp/listado_libroFecha.html'

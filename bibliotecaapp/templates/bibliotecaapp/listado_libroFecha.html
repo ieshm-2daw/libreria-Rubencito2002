@@ -1,5 +1,6 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
+    <h1>Catalogo de Libros</h1>
     {% for libro in object_list %}
         <article>    
             <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
