@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
-from .views import ListadoBook, ListadoPrestado, DetailsBook, EditBook, DeleteBook, CreateBook, Realizar_Prestamo, Devolver_Prestamo
+from .views import ListadoBook, ListadoPrestado, DetailsBook, EditBook, DeleteBook, CreateBook, Realizar_Prestamo, Devolver_Prestamo, ListadoPorFecha
 
 urlpatterns = [
     path('', ListadoBook.as_view(), name='listado'),
-    path('listadoPrestado', ListadoPrestado.as_view(), name='listado_prestado'),
+    path('listadoPrestado/', ListadoPrestado.as_view(), name='listado_prestado'),
+    path('listadoFecha/', ListadoPorFecha.as_view(), name='listado_fecha'),
     path('details/<int:pk>', DetailsBook.as_view(), name='details'),
     path('edit/<int:pk>/', EditBook.as_view(), name='update'),
     path('delete/<int:pk>/', DeleteBook.as_view(), name='delete'),

@@ -24,25 +24,31 @@ class ListadoPrestado(ListView):
         context['prestamo_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
         return context
 
+class ListadoPorFecha(ListView):
+    model = Libro
+    template_name = 'bibliotecaapp/listado_libroFecha.html'
+    context_object_name = 'libros'
+    ordering = ['fecha_publicacion']
+
 class DetailsBook(DetailView):
     model = Libro
     template_name = 'bibliotecaapp/details_libro.html'
 
+class CreateBook(CreateView):
+    model = Libro
+    fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
+    template_name = 'bibliotecaapp/create_libro.html'
+    success_url = reverse_lazy('listado')
+
 class EditBook(UpdateView):
     model = Libro
-    fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
+    fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
     template_name = 'bibliotecaapp/update_libro.html'
     success_url = reverse_lazy('listado')
 
 class DeleteBook(DeleteView):
     model = Libro
     template_name = 'bibliotecaapp/delete_libro.html'
-    success_url = reverse_lazy('listado')
-
-class CreateBook(CreateView):
-    model = Libro
-    fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
-    template_name = 'bibliotecaapp/create_libro.html'
     success_url = reverse_lazy('listado')
 
 class Realizar_Prestamo(View):

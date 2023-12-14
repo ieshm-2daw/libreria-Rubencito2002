@@ -1,6 +1,5 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1>Listado Libros Disponibles</h1>
     {% for libro in object_list %}
         <article>    
             <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
@@ -9,13 +8,14 @@
                     {{ autor.nombre}}{% if not forloop.last %}. {% endif %}
                 {% endfor %}
             </p>
+            <p><strong>Editorial: </strong> {{libro.editorial}}</p>
+            <p> <strong>Fecha de Publicación: </strong> {{ libro.fecha_publicacion }}</p>
             <p> <strong>Genero: </strong> {{ libro.genero }}</p>
             <p> <strong>Resumen: </strong> {{ libro.resumen }}</p>
             {% if libro.portada %}
                 <img src="{{ libro.portada.url }}" alt="">
             {% endif %}
             <br><br>
-            <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
         </article>
     {% endfor %}
 {% endblock %}
