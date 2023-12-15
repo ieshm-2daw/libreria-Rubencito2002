@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from django.utils import timezone
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
@@ -95,3 +96,20 @@ class Devolver_Prestamo(View):
             libroDevuelto.save()
             return redirect('details', pk = pk)
         return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
+    
+class Panel_Control(ListView):
+    model = Libro
+    template_name = 'bibliotecaapp/panel.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        # Para el total de libros prestados y disponibles.
+        context['total_prestado'] = Libro.objects.filter(disponibilidad='prestado').count()
+        context['total_disponible'] = Libro.objects.filter(disponibilidad='disponible').count()
+
+        # Para los libros no devuelto.
+        libros_no_devuelto = Libro.objects.exclude(id__in=[prestamo.libro.id for prestamo in Prestamos.objects.filter(estado='prestado')])
+        context['libros_no_devuelto'] = libros_no_devuelto
+
+        return context

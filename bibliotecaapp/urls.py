@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import ListadoBook, ListadoPrestado, DetailsBook, EditBook, DeleteBook, CreateBook, Realizar_Prestamo, Devolver_Prestamo, ListadoPorFecha
+from .views import ListadoBook, ListadoPrestado, DetailsBook, EditBook, DeleteBook, CreateBook, Realizar_Prestamo, Devolver_Prestamo
+from .views import ListadoPorFecha, Panel_Control
 
 urlpatterns = [
     path('', ListadoBook.as_view(), name='listado'),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('created/', CreateBook.as_view(), name='created'),
     path('prestamo/<int:pk>/', Realizar_Prestamo.as_view(), name='realizar_prestamo'),
     path('devolucion/<int:pk>/', Devolver_Prestamo.as_view(), name='devolver_prestamo'),
+    path('panel_control/', Panel_Control.as_view(), name='panel_control'),
 ]

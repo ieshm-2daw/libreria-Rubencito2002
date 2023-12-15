@@ -1,0 +1,32 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Panel de Control</h1>
+    <article>
+        <h2>Totales de Libros: </h2>
+        <p><strong>NºLibros Prestados: </strong> {{ total_prestado }}</p>
+        <p><strong>NºLibros Disponibles: </strong> {{ total_disponible }}</p>
+    </article>
+
+    <article>
+        <h2>Listado de libros no devuelto: </h2>
+        <ul>
+            {% for libro in libros_no_devueltos %}
+                <li>{{ libro.titulo }}</li>
+            {% endfor %}
+        </ul>
+    </article>
+    
+    <article>
+        <h2>Listado de libros a devolver: </h2>
+        <ul>
+            
+        </ul>
+    </article>
+
+    <article>
+        <h2>Top de Libros: </h2>
+        <ul>
+            
+        </ul>
+    </article>
+{% endblock %}
