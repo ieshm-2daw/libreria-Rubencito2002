@@ -1,21 +1,22 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
     <h1>Listado de Libros Prestados</h1>
-    {% for prestamo in prestamos_prestados %}
+    {% for prestamo in prestamo_prestados %}
         <article>    
             <p> <strong>Titulo: </strong> {{ prestamo.libro.titulo }} </p>
-            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }} </p>
-            <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }} </p>
-
+            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }}</p>
+            <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }}</p>
+            <br><br>
             <a href="{% url 'devolver_prestamo' pk=prestamo.pk %}" role="button">Devolver</a>
         </article>
     {% endfor %}
     <h1>Listado de Libros Devueltos</h1>
-    {% for prestamo in prestamos_devuelto %}
+    {% for prestamo in prestamo_devuelto %}
         <article>    
             <p> <strong>Titulo: </strong> {{ prestamo.libro.titulo }} </p>
-            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }} </p>
-            <p> <strong>Fecha de Devolucion: </strong> {{ prestamo.fecha_devolucion }} </p>
+            <p> <strong>Fecha de Préstamo: </strong> {{ prestamo.fecha_prestamo }}</p>
+            <p> <strong>Fecha de Devolucion : </strong> {{ prestamo.fecha_devolucion }}</p>
+            <br><br>
         </article>
     {% endfor %}
 {% endblock %}
