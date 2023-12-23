@@ -1,0 +1,15 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Listado Valoración</h1>
+    {% for valoracion in object_list %}
+        <article>    
+            <ul>
+                <li><strong>Usuario: </strong>{{ valoracion.usuario }}</li>
+                <li><strong>Libro: </strong>{{ valoracion.libro.titulo }}</li>
+                <li><strong>Puntuación: </strong>{{ valoracion.puntuacion }} estrellas</li>
+                <li><strong>Comentario: </strong>{{ valoracion.comentario }} </li>
+                <li><strong>Fecha: </strong>{{ valoracion.fecha_valoracion }} </li>
+            </ul>
+        </article>
+    {% endfor %}
+{% endblock %}

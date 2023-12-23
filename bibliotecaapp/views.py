@@ -5,7 +5,9 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from .models import Libro, Prestamos
+
+from bibliotecaapp.forms import ValoracionForm
+from .models import Libro, Prestamos, Valoracion
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
 class CreateBook(CreateView):
@@ -109,7 +111,42 @@ class Panel_Control(ListView):
         context['total_disponible'] = Libro.objects.filter(disponibilidad='disponible').count()
 
         # Para los libros no devuelto.
-        libros_no_devuelto = Libro.objects.exclude(id__in=[prestamo.libro.id for prestamo in Prestamos.objects.filter(estado='prestado')])
-        context['libros_no_devuelto'] = libros_no_devuelto
+        fecha_actual = date.today()
+        context['noDevuelto'] = Prestamos.objects.filter(estado = 'prestado', fecha_devolucion__lt=fecha_actual)
+
+        # Para los libros que expiran pronto.
+        ultimaSemana = fecha_actual + timedelta(days=7)
+        context['expiranPronto'] = Prestamos.objects.filter(estado = 'prestado', fecha_devolucion__lte=ultimaSemana, fecha_devolucion__gte=fecha_actual)
 
         return context
+
+# Crear la valoracion.
+class ValoracionView(CreateView):
+    model = Valoracion
+    fields = ["puntuacion", "comentario", "fecha_valoracion"]
+    template_name = 'bibliotecaapp/create_valoracion.html'
+
+    def get(self, request, pk):
+        form = ValoracionForm()
+        usuario = self.request.user
+        libro = Libro.objects.get(pk=pk)
+        valoracion = Valoracion.objects.filter(libro=libro)
+        return render(request, self.template_name, {'valoracion': valoracion, 'libro': libro, 'form': form, 'usuario': usuario})
+
+    def post(self, request, pk):
+        form = ValoracionForm(request.POST)
+        if form.is_valid():
+            libro = Libro.objects.get(pk=pk)
+            valoracion = form.save(commit=False)
+            valoracion.libro = libro
+            valoracion.usuario = self.request.user
+            valoracion.save()
+            
+            return redirect('listado')
+        return render(request, 'bibliotecaapp/create_valoracion.html', { 'libro': libro,'form': form})
+
+# Listado de Valoracion
+class ListadoValoracion(ListView):
+    model = Valoracion
+    template_name = 'bibliotecaapp/listado_valoracion.html'
+    ordering = ['usuario']

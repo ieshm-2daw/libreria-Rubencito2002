@@ -20,6 +20,7 @@
         <br><br>
         <a href="{% url 'realizar_prestamo' pk=libro.pk %}" role="button">Realizar Prestamo</a>
         <a href="{% url 'update' pk=libro.pk %}" role="button">Editar</a>
+        <a href="{% url 'crear_valoracion' pk=libro.pk %}" role="button">Valoracion</a>
         <a href="{% url 'delete' pk=libro.pk %}" role="button">Eliminar</a>
     </article>
 {% endblock %}

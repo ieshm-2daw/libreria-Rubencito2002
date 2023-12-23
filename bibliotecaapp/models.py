@@ -61,3 +61,22 @@ class Prestamos(models.Model):
 
     def __str__(self):
         return f"Prestamo de {self.libro.titulo} a {self.usuario}"
+
+class Valoracion(models.Model):
+    PUNTUACIONES = (
+        (0, "0 estrella"),
+        (1, "1 estrella"),
+        (2, "2 estrella"),
+        (3, "3 estrella"),
+        (4, "4 estrella"),
+        (5, "5 estrella"),
+    )
+
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    puntuacion = models.IntegerField(choices=PUNTUACIONES, default=0)
+    comentario = models.TextField(blank=True, null=True)
+    fecha_valoracion = models.DateField()
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.libro.titulo} ({self.puntuacion} estrellas)"

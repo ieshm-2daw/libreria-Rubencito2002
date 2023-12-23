@@ -1,0 +1,10 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Valoracion del Libro: {{ libro.titulo }}</h1>
+    <form method="post" action="{% url 'crear_valoracion' libro.pk %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ forms.management_form }}
+        {{ form.as_p }}
+        <button type="submit">Guardar Valoracion</button>
+    </form>
+{% endblock %}
