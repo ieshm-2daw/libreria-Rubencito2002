@@ -82,6 +82,19 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     "default": {
+#         "NAME": "libreria_Ruben",
+#         "ENGINE": "django.db.backends.mysql",
+#         "HOST": "192.168.100.5",
+#         "PORT": 3306,
+#         "USER": "Ruben",
+#         "PASSWORD": "alumnado",
+#         "OPTIONS": {
+#             "autocommit": True,
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
