@@ -12,33 +12,33 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 class CreateBook(CreateView):
     model = Libro
     fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
-    template_name = 'bibliotecaapp/create_libro.html'
+    template_name = 'bibliotecaapp/book/create_libro.html'
     success_url = reverse_lazy('listado')
 
 class EditBook(UpdateView):
     model = Libro
     fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
-    template_name = 'bibliotecaapp/update_libro.html'
+    template_name = 'bibliotecaapp/book/update_libro.html'
     success_url = reverse_lazy('listado')
 
 class DeleteBook(DeleteView):
     model = Libro
-    template_name = 'bibliotecaapp/delete_libro.html'
+    template_name = 'bibliotecaapp/book/delete_libro.html'
     success_url = reverse_lazy('listado')
 
 class DetailsBook(DetailView):
     model = Libro
-    template_name = 'bibliotecaapp/details_libro.html'
+    template_name = 'bibliotecaapp/book/details_libro.html'
 
 class ListadoBook(ListView):
     model = Libro
-    template_name = 'bibliotecaapp/listado_libro.html'
+    template_name = 'bibliotecaapp/book/listado_libro.html'
     queryset = Libro.objects.filter(disponibilidad="disponible")
     paginate_by = 2
     
 class ListadoPrestado(ListView):
     model = Prestamos
-    template_name = 'bibliotecaapp/libros_prestados.html'
+    template_name = 'bibliotecaapp/prestamos/libros_prestados.html'
     
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -49,14 +49,14 @@ class ListadoPrestado(ListView):
 
 class ListadoPorFecha(ListView):
     model = Libro
-    template_name = 'bibliotecaapp/listado_libroFecha.html'
+    template_name = 'bibliotecaapp/book/listado_libroFecha.html'
     context_object_name = 'libros'
     ordering = ['fecha_publicacion']
     paginate_by = 2
 
 
 class Realizar_Prestamo(View):
-    realizarPrestamos_template = 'bibliotecaapp/prestamo_libro.html'
+    realizarPrestamos_template = 'bibliotecaapp/prestamos/prestamo_libro.html'
     def get(self,request, pk):
         libroPrestado = get_object_or_404(Libro, pk=pk)
         return render(request, self.realizarPrestamos_template, {'libro': libroPrestado})
@@ -81,7 +81,7 @@ class Realizar_Prestamo(View):
         return render(request, self.realizarPrestamos_template, {'libro' : libroPrestado})
 
 class Devolver_Prestamo(View):
-    devolverPrestamo_template = 'bibliotecaapp/devolver_libro.html'
+    devolverPrestamo_template = 'bibliotecaapp/prestamos/devolver_libro.html'
     
     def get(self, request, pk):
         libroDevuelto = get_object_or_404(Libro, pk=pk, disponibilidad = 'prestado')
@@ -149,7 +149,7 @@ class Panel_Control(ListView):
 class ValoracionView(CreateView):
     model = Valoracion
     fields = ["puntuacion", "comentario", "fecha_valoracion"]
-    template_name = 'bibliotecaapp/create_valoracion.html'
+    template_name = 'bibliotecaapp/valoracion/create_valoracion.html'
 
     def get(self, request, pk):
         form = ValoracionForm()
@@ -168,23 +168,23 @@ class ValoracionView(CreateView):
             valoracion.save()
             
             return redirect('listado_valoracion')
-        return render(request, 'bibliotecaapp/create_valoracion.html', { 'libro': libro,'form': form})
+        return render(request, 'bibliotecaapp/valoracion/create_valoracion.html', { 'libro': libro,'form': form})
 
 # Listado de Valoracion.
 class ListadoValoracion(ListView):
     model = Valoracion
-    template_name = 'bibliotecaapp/listado_valoracion.html'
+    template_name = 'bibliotecaapp/valoracion/listado_valoracion.html'
     ordering = ['usuario']
 
 # Actualizar una valoracion.
 class UpdateValoracion(UpdateView):
     model = Valoracion
     fields = ["puntuacion", "comentario", "fecha_valoracion"]
-    template_name = 'bibliotecaapp/update_valoracion.html'
+    template_name = 'bibliotecaapp/valoracion/update_valoracion.html'
     success_url = reverse_lazy('listado_valoracion')
 
 # Eliminar una valoracion.
 class DeleteValoracion(DeleteView):
     model = Valoracion
-    template_name = 'bibliotecaapp/delete_valoracion.html'
+    template_name = 'bibliotecaapp/valoracion/delete_valoracion.html'
     success_url = reverse_lazy('listado_valoracion')
