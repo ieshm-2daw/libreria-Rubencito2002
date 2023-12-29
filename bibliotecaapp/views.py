@@ -52,6 +52,8 @@ class ListadoPorFecha(ListView):
     template_name = 'bibliotecaapp/listado_libroFecha.html'
     context_object_name = 'libros'
     ordering = ['fecha_publicacion']
+    paginate_by = 2
+
 
 class Realizar_Prestamo(View):
     realizarPrestamos_template = 'bibliotecaapp/prestamo_libro.html'
@@ -119,6 +121,29 @@ class Panel_Control(ListView):
         context['expiranPronto'] = Prestamos.objects.filter(estado = 'prestado', fecha_devolucion__lte=ultimaSemana, fecha_devolucion__gte=fecha_actual)
 
         return context
+
+    def get(self, request, *args, **kwargs):
+        libros = Libro.objects.all()
+        lista_mas_prestado = []
+
+        for libro in libros:
+            prestamos = Prestamos.objects.filter(libro=libro)
+            usuarios = []
+
+            for prestamo in prestamos:
+                if prestamo.usuario.username not in usuarios:
+                    usuarios.append(prestamo.usuario.username)
+
+            for usuario in usuarios:
+                contador = 0
+                for prestamo in prestamos:
+                    if prestamo.usuario.username == usuario:
+                        contador+=1
+                if contador > 1:
+                    usuarios[usuarios.index(usuario)] = usuario + ' (' + str(contador) + ')'
+            lista_mas_prestado.append([libro, len(prestamos), usuarios])
+        lista_mas_prestado.sort(key=lambda x: x[1], reverse=True)
+        return render(request, 'bibliotecaapp/panel.html', {'lista_mas_prestado': lista_mas_prestado})
 
 # Crear la valoracion.
 class ValoracionView(CreateView):

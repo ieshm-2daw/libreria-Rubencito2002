@@ -1,6 +1,6 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1>Listado Libros Disponibles</h1>
+    <h1 class="text-center text-decoration-underline">Listado Libros Disponibles</h1>
     {% for libro in object_list %}
         <article>    
             <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
@@ -19,13 +19,13 @@
         </article>
     {% endfor %}
     {% if page_obj.has_previous %}
-        <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" class="page-link">
+        <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" role="button">
             Ir a página {{ page_obj.previous_page_number }}
         </a>
         {% endif %}
         La página actual es {{ page_obj.number }}
         {% if page_obj.has_next %}
-        <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}">
+        <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}" role="button">
             Ir a página {{ page_obj.next_page_number }}
         </a>
     {% endif %}

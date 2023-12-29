@@ -1,6 +1,6 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1>Listado de Libros Prestados</h1>
+    <h1 class="text-center text-decoration-underline">Listado de Libros Prestados</h1>
     {% for prestamo in prestamo_prestados %}
         <article>    
             <p> <strong>Titulo: </strong> {{ prestamo.libro.titulo }} </p>
@@ -10,7 +10,7 @@
             <a href="{% url 'devolver_prestamo' pk=prestamo.pk %}" role="button">Devolver</a>
         </article>
     {% endfor %}
-    <h1>Listado de Libros Devueltos</h1>
+    <h1 class="text-center text-decoration-underline">Listado de Libros Devueltos</h1>
     {% for prestamo in prestamo_devuelto %}
         <article>    
             <p> <strong>Titulo: </strong> {{ prestamo.libro.titulo }} </p>

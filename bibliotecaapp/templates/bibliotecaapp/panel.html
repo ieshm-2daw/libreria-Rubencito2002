@@ -1,6 +1,6 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1>Panel de Control</h1>
+    <h1 class="text-center text-decoration-underline">Panel de Control</h1>
     <article>
         <h2>Totales de Libros: </h2>
         <p><strong>NºLibros Prestados: </strong> {{ total_prestado }}</p>
@@ -30,9 +30,37 @@
     </article>
 
     <article>
-        <h2>Top de Libros: </h2>
-        <ul>
-            
-        </ul>
+        <h2>Más Prestados: </h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Portada</th>
+                    <th>Libro</th>
+                    <th>Prestamos</th>
+                    <th>Usuarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in lista_mas_prestado %}
+                    <tr>
+                                <!--Mostrar el primer dato de la fila es el libro y otro td que sea el numero de prestamos que tiene-->
+                        <td><img src="{{ lista.0.portada.url }}" alt="{{ lista.0.titulo }}" width="100px"></td>
+                        <td><a href="{% url 'details' lista.0.id %}">{{ lista.0.titulo }}</a></td>
+                        <td>{{ lista.1 }}</td>
+                        {% if lista.1 == 0 %}
+                            <td>Aún sin prestamos</td>
+                        {% else %}
+                            <td>
+                            {% for usuario in lista.2 %}
+                                {{ usuario }}
+                                {% if not forloop.last %}
+                                    ,
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </article>
 {% endblock %}
