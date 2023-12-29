@@ -5,7 +5,6 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-
 from bibliotecaapp.forms import ValoracionForm
 from .models import Libro, Prestamos, Valoracion
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
@@ -35,6 +34,7 @@ class ListadoBook(ListView):
     model = Libro
     template_name = 'bibliotecaapp/listado_libro.html'
     queryset = Libro.objects.filter(disponibilidad="disponible")
+    paginate_by = 2
     
 class ListadoPrestado(ListView):
     model = Prestamos
@@ -142,11 +142,24 @@ class ValoracionView(CreateView):
             valoracion.usuario = self.request.user
             valoracion.save()
             
-            return redirect('listado')
+            return redirect('listado_valoracion')
         return render(request, 'bibliotecaapp/create_valoracion.html', { 'libro': libro,'form': form})
 
-# Listado de Valoracion
+# Listado de Valoracion.
 class ListadoValoracion(ListView):
     model = Valoracion
     template_name = 'bibliotecaapp/listado_valoracion.html'
     ordering = ['usuario']
+
+# Actualizar una valoracion.
+class UpdateValoracion(UpdateView):
+    model = Valoracion
+    fields = ["puntuacion", "comentario", "fecha_valoracion"]
+    template_name = 'bibliotecaapp/update_valoracion.html'
+    success_url = reverse_lazy('listado_valoracion')
+
+# Eliminar una valoracion.
+class DeleteValoracion(DeleteView):
+    model = Valoracion
+    template_name = 'bibliotecaapp/delete_valoracion.html'
+    success_url = reverse_lazy('listado_valoracion')

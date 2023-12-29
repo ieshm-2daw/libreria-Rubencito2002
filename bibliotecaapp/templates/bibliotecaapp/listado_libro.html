@@ -18,4 +18,15 @@
             <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
         </article>
     {% endfor %}
+    {% if page_obj.has_previous %}
+        <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" class="page-link">
+            Ir a página {{ page_obj.previous_page_number }}
+        </a>
+        {% endif %}
+        La página actual es {{ page_obj.number }}
+        {% if page_obj.has_next %}
+        <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}">
+            Ir a página {{ page_obj.next_page_number }}
+        </a>
+    {% endif %}
 {% endblock %}

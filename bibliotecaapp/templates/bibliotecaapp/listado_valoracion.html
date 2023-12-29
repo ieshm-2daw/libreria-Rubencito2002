@@ -10,6 +10,8 @@
                 <li><strong>Comentario: </strong>{{ valoracion.comentario }} </li>
                 <li><strong>Fecha: </strong>{{ valoracion.fecha_valoracion }} </li>
             </ul>
+            <a href="{% url 'update_valoracion' pk=valoracion.pk %}" role="button">Editar</a>
+            <a href="{% url 'delete_valoracion' pk=valoracion.pk %}" role="button">Eliminar</a>
         </article>
     {% endfor %}
 {% endblock %}

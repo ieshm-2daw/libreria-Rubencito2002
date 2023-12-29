@@ -1,0 +1,10 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <h1>Eliminar valoracion</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>¿Quieres eliminar esta valoracion "{{object}}"?</p>
+        {{ form }}
+        <button type="submit" value="Confirm">Valoracion Eliminado</button>
+    </form>
+{% endblock %}
