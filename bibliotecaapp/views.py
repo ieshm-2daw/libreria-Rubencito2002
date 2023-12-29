@@ -5,8 +5,8 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from bibliotecaapp.forms import ValoracionForm
-from .models import Libro, Prestamos, Valoracion
+from bibliotecaapp.forms import ValoracionForm, FiltroLibroForm
+from .models import *
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
 class CreateBook(CreateView):
@@ -188,3 +188,33 @@ class DeleteValoracion(DeleteView):
     model = Valoracion
     template_name = 'bibliotecaapp/valoracion/delete_valoracion.html'
     success_url = reverse_lazy('listado_valoracion')
+
+# Vista para filtrar.
+class FiltroLibro(ListView):
+    model = Libro
+    template_name = 'bibliotecaapp/libro_list.html'
+    context_object_name = 'libros'
+    paginate_by = 2
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        tituloSeleccionado = self.request.GET.get('titulo')
+        autoresSeleccionado = self.request.GET.get('autores')
+        generoSeleccionado = self.request.GET.get('genero')
+        
+        if tituloSeleccionado is not None:
+            queryset = queryset.filter(titulo__icontains = tituloSeleccionado)
+
+        for autores_ID in Autor.objects.all():
+            if autores_ID == autoresSeleccionado:
+                queryset = queryset.filter(autores = autores_ID)
+
+        if generoSeleccionado is not None:
+            queryset = queryset.filter(genero__icontains = generoSeleccionado)
+
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['form'] = FiltroLibroForm(self.request.GET)
+        return context

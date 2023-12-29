@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import ListadoBook, ListadoPrestado, DetailsBook, EditBook, DeleteBook, CreateBook, Realizar_Prestamo, Devolver_Prestamo
-from .views import ListadoPorFecha, Panel_Control, ValoracionView, ListadoValoracion, UpdateValoracion, DeleteValoracion
+from .views import ListadoPorFecha, Panel_Control, ValoracionView, ListadoValoracion, UpdateValoracion, DeleteValoracion, FiltroLibro
 
 urlpatterns = [
     # General
@@ -27,4 +27,5 @@ urlpatterns = [
 
     # Otros
     path('panel_control/', Panel_Control.as_view(), name='panel_control'),
+    path('filtro/', FiltroLibro.as_view(), name='libro_list'),
 ]

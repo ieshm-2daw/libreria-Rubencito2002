@@ -1,0 +1,43 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <div class="container-fluids">
+        <div class="row">
+            <div class="col-2">
+                <h2>Filtro de Libros</h2>
+                <form action="{% url 'libro_list' %}" method="get">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit">Filtrar</button>
+                </form>
+            </div>
+            <div class="col-10">
+                {% for libro in libros %}
+                    <article>    
+                        <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
+                        <p> <strong>Resumen: </strong> {{ libro.resumen }}</p>
+                        {% if libro.portada %}
+                            <img src="{{ libro.portada.url }}" alt="">
+                        {% endif %}
+                        <br><br>
+                        <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+
+    
+
+    {% if page_obj.has_previous %}
+        <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" role="button">
+            Ir a página {{ page_obj.previous_page_number }}
+        </a>
+        {% endif %}
+        La página actual es {{ page_obj.number }}
+        {% if page_obj.has_next %}
+        <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}" role="button">
+            Ir a página {{ page_obj.next_page_number }}
+        </a>
+    {% endif %}
+{% endblock %}
