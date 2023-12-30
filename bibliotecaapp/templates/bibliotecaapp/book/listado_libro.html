@@ -1,32 +1,47 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1 class="text-center text-decoration-underline">Listado Libros Disponibles</h1>
-    {% for libro in object_list %}
-        <article>    
-            <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
-            <p><strong>Autor/es: </strong>
-                {% for autor in libro.autores.all %}
-                    {{ autor.nombre}}{% if not forloop.last %}. {% endif %}
-                {% endfor %}
-            </p>
-            <p> <strong>Genero: </strong> {{ libro.genero }}</p>
-            <p> <strong>Resumen: </strong> {{ libro.resumen }}</p>
-            {% if libro.portada %}
-                <img src="{{ libro.portada.url }}" alt="">
-            {% endif %}
-            <br><br>
-            <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
-        </article>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center text-decoration-underline">Listado Libros Disponibles</h1>
+            <div class="col">
+                {% for libro in object_list %}
+                <article>    
+                    <p> <strong>Titulo: </strong> {{ libro.titulo }} </p>
+                    <p><strong>Autor/es: </strong>
+                        {% for autor in libro.autores.all %}
+                            {{ autor.nombre}}{% if not forloop.last %}. {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p> <strong>Genero: </strong> 
+                        {% for genero in libro.genero.all %}
+                            {{ genero.nombre}}{% if not forloop.last %}. {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p> <strong>Resumen: </strong> {{ libro.resumen }}</p>
+                    {% if libro.portada %}
+                        <img src="{{ libro.portada.url }}" alt="">
+                    {% endif %}
+                    <br><br>
+                    <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
+                </article>
     {% endfor %}
-    {% if page_obj.has_previous %}
-        <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" role="button">
-            Ir a página {{ page_obj.previous_page_number }}
-        </a>
-        {% endif %}
-        La página actual es {{ page_obj.number }}
-        {% if page_obj.has_next %}
-        <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}" role="button">
-            Ir a página {{ page_obj.next_page_number }}
-        </a>
-    {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="position-relative mt-3">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            {% if page_obj.has_previous %}
+                <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" role="button">
+                    Ir a página {{ page_obj.previous_page_number }}
+                </a>
+                {% endif %}
+                La página actual es {{ page_obj.number }}
+                {% if page_obj.has_next %}
+                <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}" role="button">
+                    Ir a página {{ page_obj.next_page_number }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

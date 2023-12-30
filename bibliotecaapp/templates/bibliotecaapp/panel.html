@@ -1,33 +1,42 @@
 {% extends 'bibliotecaapp/base.html' %}
 {% block content %}
-    <h1 class="text-center text-decoration-underline">Panel de Control</h1>
-    <article>
-        <h2>Totales de Libros: </h2>
-        <p><strong>NºLibros Prestados: </strong> {{ total_prestado }}</p>
-        <p><strong>NºLibros Disponibles: </strong> {{ total_disponible }}</p>
-    </article>
-    <article>
-        {% if noDevueltos %}
-            <h2>Libros no devueltos</h2>
-            {% for prestamo in noDevueltos %}
-                <p>El prestamo de {{ prestamo.libro_prestado.titulo }} expiró el {{ prestamo.fecha_devolucion }}</p>
-            {% endfor %}
-        {% else %}
-            <h2>No hay prestamos cuya fecha de devolución se haya excedido</h2>
-        {% endif %}
-    </article>
-    
-    <article>
-        {% if expiranPronto %}
-            <h2>Préstamos que expiran en menos de una semana</h2>
-            {% for prestamo in expiranPronto %}
-                <h4>{{prestamo.libro_prestado.titulo}}</h4>
-                <p>Plazo de entrega hasta: {{ prestamo.fecha_devolucion }}</p>
-            {% endfor %}
-        {% else %}
-            <h2>No hay préstamos que expiren pronto aún!</h2>
-        {% endif %}
-    </article>
+    <div class="container-fluids">
+        <div class="row">
+            <h1 class="text-center text-decoration-underline">Panel de Control</h1>
+            <div class="col-4">
+                <article>
+                    <h2>Totales de Libros: </h2>
+                    <p><strong>NºLibros Prestados: </strong> {{ total_prestado }}</p>
+                    <p><strong>NºLibros Disponibles: </strong> {{ total_disponible }}</p>
+                </article>
+            </div>
+            <div class="col-4">
+                <article>
+                    {% if noDevueltos %}
+                        <h2>Libros no devueltos</h2>
+                        {% for prestamo in noDevueltos %}
+                            <p>El prestamo de {{ prestamo.libro_prestado.titulo }} expiró el {{ prestamo.fecha_devolucion }}</p>
+                        {% endfor %}
+                    {% else %}
+                        <h2>No hay prestamos cuya fecha de devolución se haya excedido</h2>
+                    {% endif %}
+                </article>
+            </div>
+            <div class="col-4">
+                <article>
+                    {% if expiranPronto %}
+                        <h2>Préstamos que expiran en menos de una semana</h2>
+                        {% for prestamo in expiranPronto %}
+                            <h4>{{prestamo.libro_prestado.titulo}}</h4>
+                            <p>Plazo de entrega hasta: {{ prestamo.fecha_devolucion }}</p>
+                        {% endfor %}
+                    {% else %}
+                        <h2>No hay préstamos que expiren pronto aún!</h2>
+                    {% endif %}
+                </article>
+            </div>
+        </div>
+    </div>
 
     <article>
         <h2>Más Prestados: </h2>
