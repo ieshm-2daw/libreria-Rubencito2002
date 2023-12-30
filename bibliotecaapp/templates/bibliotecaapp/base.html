@@ -42,6 +42,9 @@
                         <li class="navbar-nav">
                             <a href="{% url 'listado_prestado' %}" class="nav-link" aria-current="page">Mis Libros</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{% url 'libro_list' %}" class="nav-link" aria-current="page">Libros Filtrado</a>
+                        </li>
                         <li class="navbar-item">
                             <a href="{% url 'listado_valoracion' %}" class="nav-link" aria-current="page">Valoraciones</a>
                         </li>
@@ -50,9 +53,6 @@
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'panel_control' %}" class="nav-link" aria-current="page">Bibliotecario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'libro_list' %}" class="nav-link" aria-current="page">Filtro</a>
                         </li>
                     </ul>
                 </div>
@@ -72,6 +72,9 @@
                         </li>
                         <li class="navbar-nav">
                             <a href="{% url 'listado_prestado' %}" class="nav-link" aria-current="page">Mis Libros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'libro_list' %}" class="nav-link" aria-current="page">Libros Filtrado</a>
                         </li>
                         <li class="navbar-item">
                             <a href="{% url 'listado_valoracion' %}" class="nav-link" aria-current="page">Valoraciones</a>

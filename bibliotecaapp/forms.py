@@ -9,4 +9,4 @@ class ValoracionForm(forms.ModelForm):
 class FiltroLibroForm(forms.ModelForm):
     class Meta:
         model = Libro
-        fields = ["titulo", "autores", "genero"]
+        fields = ["titulo", "genero"]

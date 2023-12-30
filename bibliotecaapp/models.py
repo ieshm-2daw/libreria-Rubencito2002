@@ -10,7 +10,7 @@ class Usuario(AbstractUser):
         return self.username
 
 class Autor(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, null=True, blank = True)
     bibliografia = models.TextField()
     foto = models.ImageField(upload_to='autores/', null=True, blank=True)
 
@@ -25,6 +25,12 @@ class Editorial(models.Model):
     def __str__(self):
         return self.nombre
 
+class Genero(models.Model):
+    nombre = models.CharField(max_length = 100, null=True, blank = True)
+
+    def __str__(self):
+        return self.nombre
+
 class Libro(models.Model):
     DISPONIBILIDAD = (
         ('disponible', 'Disponible'),
@@ -32,11 +38,11 @@ class Libro(models.Model):
         ('en_proceso', 'En proceso de préstamo'),
     )
 
-    titulo = models.CharField(max_length=255)
+    titulo = models.CharField(max_length=255, null=True, blank = True)
     autores = models.ManyToManyField(Autor)
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE)
     fecha_publicacion = models.DateField()
-    genero = models.CharField(max_length=100)
+    genero = models.ManyToManyField(Genero)
     isbn = models.CharField(max_length=13)
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDAD, default='disponible')

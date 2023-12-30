@@ -21,6 +21,10 @@
                         <br><br>
                         <a href="{% url 'details' pk=libro.pk %}" role="button">Detalles</a>
                     </article>
+                {% empty %}
+                    <article>
+                        Sin resultados...
+                    </article>
                 {% endfor %}
             </div>
         </div>
