@@ -25,11 +25,11 @@ class Editorial(models.Model):
     def __str__(self):
         return self.nombre
 
-class Genero(models.Model):
-    nombre = models.CharField(max_length = 100, null=True, blank = True)
+# class Genero(models.Model):
+#     nombre = models.CharField(max_length = 100, null=True, blank = True)
 
-    def __str__(self):
-        return self.nombre
+#     def __str__(self):
+#         return self.nombre
 
 class Libro(models.Model):
     DISPONIBILIDAD = (
@@ -42,7 +42,7 @@ class Libro(models.Model):
     autores = models.ManyToManyField(Autor)
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE)
     fecha_publicacion = models.DateField()
-    genero = models.ManyToManyField(Genero)
+    genero = models.CharField(max_length=255, null=True, blank = True)
     isbn = models.CharField(max_length=13)
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDAD, default='disponible')

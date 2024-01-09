@@ -194,7 +194,7 @@ class FiltroLibro(ListView):
     model = Libro
     template_name = 'bibliotecaapp/book/libro_filtrado.html'
     context_object_name = 'libros'
-    paginate_by = 2
+    #paginate_by = 2
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
@@ -209,12 +209,12 @@ class FiltroLibro(ListView):
         #     if autores_ID == autoresSeleccionado:
         #         queryset = queryset.filter(autores = autores_ID)
 
-        # if generoSeleccionado is not None:
-        #     queryset = queryset.filter(genero__icontains = generoSeleccionado)
+        if generoSeleccionado is not None:
+            queryset = queryset.filter(genero__icontains = generoSeleccionado)
 
-        for genero_ID in Genero.objects.all():
-            if genero_ID == generoSeleccionado:
-                queryset = queryset.filter(genero_ID = generoSeleccionado)
+        # for genero_ID in Genero.objects.all():
+        #     if genero_ID == generoSeleccionado:
+        #         queryset = queryset.filter(genero_ID = generoSeleccionado)
 
         return queryset
 
