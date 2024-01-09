@@ -33,13 +33,13 @@
     <div class="position-relative mt-3">
         <div class="position-absolute top-50 start-50 translate-middle">
             {% if page_obj.has_previous %}
-                <a href="{% url 'listado' %}?page={{ page_obj.previous_page_number }}" role="button">
+                <a href="{% url 'listado_fecha' %}?page={{ page_obj.previous_page_number }}" role="button">
                     Ir a página {{ page_obj.previous_page_number }}
                 </a>
                 {% endif %}
                 La página actual es {{ page_obj.number }}
                 {% if page_obj.has_next %}
-                <a href="{% url 'listado' %}?page={{ page_obj.next_page_number }}" role="button">
+                <a href="{% url 'listado_fecha' %}?page={{ page_obj.next_page_number }}" role="button">
                     Ir a página {{ page_obj.next_page_number }}
                 </a>
             {% endif %}
