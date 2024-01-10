@@ -48,13 +48,12 @@ class ListadoPrestado(LoginRequiredMixin, ListView):
         context['prestamo_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
         return context
 
-class ListadoPorFecha(LoginRequiredMixin, ListView):
+class ListadoPorFecha(ListView):
     model = Libro
     template_name = 'bibliotecaapp/book/listado_libroFecha.html'
     context_object_name = 'libros'
     ordering = ['fecha_publicacion']
     paginate_by = 2
-
 
 class Realizar_Prestamo(LoginRequiredMixin, View):
     realizarPrestamos_template = 'bibliotecaapp/prestamos/prestamo_libro.html'

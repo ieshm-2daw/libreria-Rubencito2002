@@ -1,0 +1,14 @@
+{% extends 'bibliotecaapp/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <article>
+                    <h1 class="text-center mb-4"> Sesión Cerrada</h1>
+                    <p>Tu puedes <a href="{% url 'login'%}">Iniciar Sesión</a> nuevamente.</p>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -72,29 +72,35 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     {% if user.is_authenticated %}
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a href="{% url 'listado_fecha' %}" class="nav-link" aria-current="page">Catalogo</a>
-                        </li>
-                        <li class="navbar-nav">
-                            <a href="{% url 'listado_prestado' %}" class="nav-link" aria-current="page">Mis Libros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'libro_list' %}" class="nav-link" aria-current="page">Libros Filtrado</a>
-                        </li>
-                        <li class="navbar-item">
-                            <a href="{% url 'listado_valoracion' %}" class="nav-link" aria-current="page">Valoraciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'created' %}" class="nav-link" aria-current="page">Agregar Libro</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'panel_control' %}" class="nav-link" aria-current="page">Bibliotecario</a>
-                        </li>
-                    </ul>
-                    <span class="navbar-text">
-                        <a href="{% url 'logout' %}" class="nav-link" aria-current="page">Cerrar Sesión</a>
-                    </span>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a href="{% url 'listado_fecha' %}" class="nav-link" aria-current="page">Catalogo</a>
+                            </li>
+                            <li class="navbar-nav">
+                                <a href="{% url 'listado_prestado' %}" class="nav-link" aria-current="page">Mis Libros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'libro_list' %}" class="nav-link" aria-current="page">Libros Filtrado</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a href="{% url 'listado_valoracion' %}" class="nav-link" aria-current="page">Valoraciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'created' %}" class="nav-link" aria-current="page">Agregar Libro</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'panel_control' %}" class="nav-link" aria-current="page">Bibliotecario</a>
+                            </li>
+                        </ul>
+                        <span class="navbar-text">
+                            <a href="{% url 'logout' %}" class="nav-link" aria-current="page">Cerrar Sesión</a>
+                        </span>
+                    {% else %}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a href="{% url 'listado_fecha' %}" class="nav-link" aria-current="page">Catalogo</a>
+                            </li>
+                        </ul>
                     {% endif %}
                 </div>
             </div>
