@@ -8,35 +8,36 @@ from django.views import View
 from bibliotecaapp.forms import ValoracionForm, FiltroLibroForm
 from .models import *
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class CreateBook(CreateView):
+class CreateBook(LoginRequiredMixin, CreateView):
     model = Libro
     fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
     template_name = 'bibliotecaapp/book/create_libro.html'
     success_url = reverse_lazy('listado')
 
-class EditBook(UpdateView):
+class EditBook(LoginRequiredMixin, UpdateView):
     model = Libro
     fields = ["titulo", "autores", "editorial", "fecha_publicacion", "genero", "isbn", "resumen", "portada"]
     template_name = 'bibliotecaapp/book/update_libro.html'
     success_url = reverse_lazy('listado')
 
-class DeleteBook(DeleteView):
+class DeleteBook(LoginRequiredMixin, DeleteView):
     model = Libro
     template_name = 'bibliotecaapp/book/delete_libro.html'
     success_url = reverse_lazy('listado')
 
-class DetailsBook(DetailView):
+class DetailsBook(LoginRequiredMixin, DetailView):
     model = Libro
     template_name = 'bibliotecaapp/book/details_libro.html'
 
-class ListadoBook(ListView):
+class ListadoBook(LoginRequiredMixin, ListView):
     model = Libro
     template_name = 'bibliotecaapp/book/listado_libro.html'
     queryset = Libro.objects.filter(disponibilidad="disponible")
     paginate_by = 2
     
-class ListadoPrestado(ListView):
+class ListadoPrestado(LoginRequiredMixin, ListView):
     model = Prestamos
     template_name = 'bibliotecaapp/prestamos/libros_prestados.html'
     
@@ -47,7 +48,7 @@ class ListadoPrestado(ListView):
         context['prestamo_devuelto'] = Prestamos.objects.filter(estado='devuelto', usuario=self.request.user)
         return context
 
-class ListadoPorFecha(ListView):
+class ListadoPorFecha(LoginRequiredMixin, ListView):
     model = Libro
     template_name = 'bibliotecaapp/book/listado_libroFecha.html'
     context_object_name = 'libros'
@@ -55,7 +56,7 @@ class ListadoPorFecha(ListView):
     paginate_by = 2
 
 
-class Realizar_Prestamo(View):
+class Realizar_Prestamo(LoginRequiredMixin, View):
     realizarPrestamos_template = 'bibliotecaapp/prestamos/prestamo_libro.html'
     def get(self,request, pk):
         libroPrestado = get_object_or_404(Libro, pk=pk)
@@ -80,7 +81,7 @@ class Realizar_Prestamo(View):
             return redirect('details', pk = pk)
         return render(request, self.realizarPrestamos_template, {'libro' : libroPrestado})
 
-class Devolver_Prestamo(View):
+class Devolver_Prestamo(LoginRequiredMixin, View):
     devolverPrestamo_template = 'bibliotecaapp/prestamos/devolver_libro.html'
     
     def get(self, request, pk):
@@ -101,7 +102,7 @@ class Devolver_Prestamo(View):
         return render(request, self.devolverPrestamo_template, {'libro' : libroDevuelto})
 
 # Panel de Control del bibliotecario.
-class Panel_Control(ListView):
+class Panel_Control(LoginRequiredMixin, ListView):
     model = Libro
     template_name = 'bibliotecaapp/panel.html'
 
@@ -146,7 +147,7 @@ class Panel_Control(ListView):
         return render(request, 'bibliotecaapp/panel.html', {'lista_mas_prestado': lista_mas_prestado})
 
 # Crear la valoracion.
-class ValoracionView(CreateView):
+class ValoracionView(LoginRequiredMixin, CreateView):
     model = Valoracion
     fields = ["puntuacion", "comentario", "fecha_valoracion"]
     template_name = 'bibliotecaapp/valoracion/create_valoracion.html'
@@ -171,26 +172,26 @@ class ValoracionView(CreateView):
         return render(request, 'bibliotecaapp/valoracion/create_valoracion.html', { 'libro': libro,'form': form})
 
 # Listado de Valoracion.
-class ListadoValoracion(ListView):
+class ListadoValoracion(LoginRequiredMixin, ListView):
     model = Valoracion
     template_name = 'bibliotecaapp/valoracion/listado_valoracion.html'
     ordering = ['usuario']
 
 # Actualizar una valoracion.
-class UpdateValoracion(UpdateView):
+class UpdateValoracion(LoginRequiredMixin, UpdateView):
     model = Valoracion
     fields = ["puntuacion", "comentario", "fecha_valoracion"]
     template_name = 'bibliotecaapp/valoracion/update_valoracion.html'
     success_url = reverse_lazy('listado_valoracion')
 
 # Eliminar una valoracion.
-class DeleteValoracion(DeleteView):
+class DeleteValoracion(LoginRequiredMixin, DeleteView):
     model = Valoracion
     template_name = 'bibliotecaapp/valoracion/delete_valoracion.html'
     success_url = reverse_lazy('listado_valoracion')
 
 # Vista para filtrar.
-class FiltroLibro(ListView):
+class FiltroLibro(LoginRequiredMixin, ListView):
     model = Libro
     template_name = 'bibliotecaapp/book/libro_filtrado.html'
     context_object_name = 'libros'
