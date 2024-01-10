@@ -12,11 +12,7 @@
                             {{ autor.nombre}}{% if not forloop.last %}. {% endif %}
                         {% endfor %}
                     </p>
-                    <p> <strong>Genero: </strong> 
-                        {% for genero in libro.genero.all %}
-                            {{ genero.nombre}}{% if not forloop.last %}. {% endif %}
-                        {% endfor %}
-                    </p>
+                    <p> <strong>Genero: </strong> {{ libro.genero }}</p>
                     <p> <strong>Resumen: </strong> {{ libro.resumen }}</p>
                     {% if libro.portada %}
                         <img src="{{ libro.portada.url }}" alt="">
